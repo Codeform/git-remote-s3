@@ -22,5 +22,18 @@
       };
     in
       mkPoetryApplication {projectDir = src;};
+
+    devShells.${system}.default = pkgs.mkShell {
+      packages = with pkgs; [
+        alejandra
+        nil
+      ];
+    };
+
+    nixosConfigurations.hostname = pkgs.lib.nixosSystem {
+      modules = [];
+    };
+
+    templates.default.path = ./.;
   };
 }
