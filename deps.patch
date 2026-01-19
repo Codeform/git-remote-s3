@@ -1,0 +1,17 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index cb0768d..bafd9b5 100755
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -12,9 +12,9 @@ license = "Apache-2.0"
+ readme = "README.md"
+ requires-python = ">= 3.10"
+ dependencies = [
+-    "boto3 (>=1.42.24,<2.0.0)",
+-    "botocore (>=1.42.24,<2.0.0)",
+-    "urllib3 (>=2.6.3,<3.0.0)"
++    "boto3 (>=1.40.18,<2.0.0)",
++    "botocore (>=1.40.18,<2.0.0)",
++    "urllib3 (>=2.5.0,<3.0.0)"
+ ]
+ 
+ [project.scripts]

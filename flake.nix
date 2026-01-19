@@ -2,30 +2,37 @@
   description = "This library enables to use Amazon S3 as a git remote and LFS server.";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    poetry2nix.url = "github:nix-community/poetry2nix";
   };
   outputs =
     {
       self,
       nixpkgs,
-      poetry2nix,
+      ...
     }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-      inherit (poetry2nix.lib.mkPoetry2Nix { inherit pkgs; }) mkPoetryApplication;
+      inherit (pkgs.python3Packages) buildPythonPackage;
     in
     {
-      packages.${system}.default =
-        let
-          src = pkgs.fetchFromGitHub {
-            owner = "awslabs";
-            repo = "git-remote-s3";
-            rev = "v0.3.1";
-            hash = "sha256-+50yq54ROvN7VA0JTxJ+v1izJigTYt119dqaX+MSODQ=";
-          };
-        in
-        mkPoetryApplication { projectDir = src; };
+      packages.${system}.default = buildPythonPackage rec {
+        pname = "git-remote-s3";
+        version = "v0.3.1";
+        pyproject = true;
+        src = pkgs.fetchFromGitHub {
+          owner = "awslabs";
+          repo = "git-remote-s3";
+          rev = version;
+          hash = "sha256-QDx4jDGfPvakrYp8hv1apGmxr04Sb2gUe4kLDpZFL3o=";
+        };
+        patches = [ ./deps.patch ];
+        dependencies = with pkgs.python3Packages; [
+          poetry-core
+          botocore
+          boto3
+          urllib3
+        ];
+      };
 
       formatter.${system} = pkgs.nixfmt-tree;
       devShells.${system}.default = pkgs.mkShell {
