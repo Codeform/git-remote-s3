@@ -17,13 +17,13 @@
     {
       packages.${system}.default = buildPythonPackage rec {
         pname = "git-remote-s3";
-        version = "v0.3.1";
+        version = "v0.3.2";
         pyproject = true;
         src = pkgs.fetchFromGitHub {
           owner = "awslabs";
           repo = "git-remote-s3";
           rev = version;
-          hash = "sha256-QDx4jDGfPvakrYp8hv1apGmxr04Sb2gUe4kLDpZFL3o=";
+          hash = "sha256-VWuvgpIQeMImY8q2ydi/1nkYrGnXCysCUx7Hyt5aMjo=";
         };
         patches = [ ./deps.patch ];
         dependencies = with pkgs.python3Packages; [
